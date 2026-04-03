@@ -275,6 +275,23 @@
 
   @keyframes fade { to { opacity: 1; } }
   @keyframes rise { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+  @media (max-width: 768px) {
+    html, body { overflow: auto; }
+    .page { height: auto; padding-bottom: 3rem; }
+    nav { padding: 0 1.25rem; }
+    .bg-num { display: none; }
+    .hero-inner {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      padding: 2rem 1.25rem 0;
+    }
+    .hl-1, .hl-2 { font-size: clamp(2.6rem, 12vw, 4rem); }
+    .hl-3 { font-size: clamp(1.1rem, 5vw, 1.6rem); }
+    .hero-body { font-size: 0.88rem; margin-top: 1.25rem; max-width: 100%; }
+    .card { padding: 1.75rem 1.25rem; }
+    .card-title { font-size: 1.25rem; }
+  }
 </style>
 </head>
 <body>
