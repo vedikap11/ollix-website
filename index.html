@@ -376,17 +376,40 @@ document.querySelectorAll('a,button,.field').forEach(el=>{
   el.addEventListener('mouseleave',()=>{ cur.style.width='8px'; cur.style.height='8px'; ring.style.width='32px'; ring.style.height='32px'; ring.style.opacity='0.35'; });
 });
 
-function handleSubmit(){
+async function handleSubmit(){
+  const name  = document.getElementById('f-name').value.trim();
   const email = document.getElementById('f-email').value.trim();
-  if(!email || !email.includes('@')){
-    const el = document.getElementById('f-email');
+  const school= document.getElementById('f-school').value.trim();
+
+  if(!email||!email.includes('@')){
+    const el=document.getElementById('f-email');
     el.style.borderColor='rgba(180,60,50,0.4)';
     el.focus();
     setTimeout(()=>el.style.borderColor='',1500);
     return;
   }
-  document.getElementById('the-form').style.display='none';
-  document.getElementById('the-success').classList.add('show');
+
+  const btn = document.querySelector('.submit-btn');
+  btn.textContent = 'Submitting…';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('https://formspree.io/f/maqllwpa', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ name, email, school })
+    });
+    if(res.ok){
+      document.getElementById('the-form').style.display='none';
+      document.getElementById('the-success').classList.add('show');
+    } else {
+      btn.textContent = 'Something went wrong — try again';
+      btn.disabled = false;
+    }
+  } catch(e){
+    btn.textContent = 'Something went wrong — try again';
+    btn.disabled = false;
+  }
 }
 
 document.getElementById('f-email').addEventListener('keydown',e=>{ if(e.key==='Enter') handleSubmit(); });
